@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Reaktionsspiel</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="play_icon">Play</string>
+    <string name="score">Scoreslist</string>
+    <string name="ScoreIndicator">your Score!</string>
+    <string name="username">Enter your name</string>
+    <string name="commit">commit</string>
+    <string name="cancel">cancel</string>
+    <string name="dynamicText">EndScore</string>
+    <string name="scorecount">score</string>
+    <string name="yes">yes</string>
+</resources>
