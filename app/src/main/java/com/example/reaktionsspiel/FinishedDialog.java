@@ -18,18 +18,24 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.material.snackbar.Snackbar;
+
 public class FinishedDialog {
     private Context context;
-    private Button startButton;
+    private Dialog dialog;
+    EditText nameInput;
+    long score;
+    GameActivity game;
 
-    public FinishedDialog(Context context, Button startButton) {
+    public FinishedDialog(Context context, long score, GameActivity game) {
         this.context = context;
-        this.startButton = startButton;
+        this.score = score;
+        this.game = game;
     }
 
     public void showDialog(GameActivity activity) {
         // Create a dialog
-        Dialog dialog = new Dialog(context);
+        dialog = new Dialog(context);
         dialog.setCancelable(false);
 
         // Create a LinearLayout to serve as the container
@@ -66,7 +72,7 @@ public class FinishedDialog {
         inputIndicator.setPadding(0, 50, 0, 0);
         layout.addView(inputIndicator);
 
-        EditText nameInput = new EditText(context);
+        nameInput = new EditText(context);
         nameInput.setEms(10);
         nameInput.setTextSize(22);
         nameInput.setTextColor(R.color.black);
@@ -78,13 +84,13 @@ public class FinishedDialog {
         layout.addView(scoreIndicator);
 
         TextView endScore = new TextView(context);
-        endScore.setText("10000000");
+        endScore.setText(""+score); //since a long value alone isn't allowed.
         endScore.setTextSize(28);
         layout.addView(endScore);
 
         Button save = new Button(context);
         save.setText("save");
-        save.setOnClickListener(v -> dialog.dismiss());
+        save.setOnClickListener(v -> pressedSave());
         layout.addView(save);
 
         Button nope = new Button(context);
@@ -102,5 +108,16 @@ public class FinishedDialog {
     public void hideKeyboardFrom(Context context, View view) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public void pressedSave() { //basically i want, that if there is no name it should say that there is no name.
+        String name = nameInput.getText().toString().trim();
+        if(name.length() > 0 && name.length() < 14){
+            game.addScoreList(score, name);
+            dialog.dismiss();
+        }
+        else {
+            Snackbar.make(nameInput, "Invalid Username, max. 13 digits", Snackbar.LENGTH_SHORT).show();
+        }
     }
 }
