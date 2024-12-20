@@ -12,13 +12,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.reaktionsspiel.Sorters.SortByName;
+import com.example.reaktionsspiel.Sorters.SortByNameDesc;
+import com.example.reaktionsspiel.Sorters.SortByScore;
+import com.example.reaktionsspiel.Sorters.SortByScoreDesc;
+import com.example.reaktionsspiel.Sorters.SortByTime;
+import com.example.reaktionsspiel.Sorters.SortByTimeDesc;
+
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ScoreFragment extends Fragment {
 
     //private static ArrayList<ScoreRow> rows;
     private ArrayList<ScoreRow> scoreBoard;
     private RecyclerView.Adapter scoreAdapter;
+    //if they are true it means it is sorted asc, else desc, except for score that one is reversed
+    private boolean sortScore;
+    private boolean sortName;
+    private boolean sortTime;
+    private Fragment fragment = this;
 
     public ScoreFragment() {
         // Required empty public constructor
@@ -54,5 +67,71 @@ public class ScoreFragment extends Fragment {
         RecyclerView recyclerList = view.findViewById(R.id.scoreboard);
         recyclerList.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerList.setAdapter(scoreAdapter);
+        //so that i can code it programmatically
+        //score and place sorting both do the same thing
+        view.findViewById(R.id.placeTitle).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(sortScore) {
+                    SortByScoreDesc scoreSorterDesc = new SortByScoreDesc();
+                    Collections.sort(scoreBoard, scoreSorterDesc);
+                    sortScore = false;
+                }
+                else {
+                    SortByScore scoreSorter = new SortByScore();
+                    Collections.sort(scoreBoard, scoreSorter);
+                    sortScore = true;
+                }
+                scoreAdapter.notifyDataSetChanged();
+            }
+        });
+        view.findViewById(R.id.nameTitle).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(sortName) {
+                    SortByName nameSorter = new SortByName();
+                    Collections.sort(scoreBoard, nameSorter);
+                    sortName = false;
+                }
+                else {
+                    SortByNameDesc nameSorterDesc = new SortByNameDesc();
+                    Collections.sort(scoreBoard, nameSorterDesc);
+                    sortName = true;
+                }
+                scoreAdapter.notifyDataSetChanged();
+            }
+        });
+        view.findViewById(R.id.scoreTitle).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(sortScore) {
+                    SortByScoreDesc scoreSorterDesc = new SortByScoreDesc();
+                    Collections.sort(scoreBoard, scoreSorterDesc);
+                    sortScore = false;
+                }
+                else {
+                    SortByScore scoreSorter = new SortByScore();
+                    Collections.sort(scoreBoard, scoreSorter);
+                    sortScore = true;
+                }
+                scoreAdapter.notifyDataSetChanged();
+            }
+        });
+        view.findViewById(R.id.timeTitle).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(sortTime) {
+                    SortByTime timeSorter = new SortByTime();
+                    Collections.sort(scoreBoard, timeSorter);
+                    sortTime = false;
+                }
+                else {
+                    SortByTimeDesc timeSorterDesc = new SortByTimeDesc();
+                    Collections.sort(scoreBoard, timeSorterDesc);
+                    sortTime = true;
+                }
+                scoreAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }

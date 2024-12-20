@@ -11,4 +11,5 @@
     <string name="dynamicText">EndScore</string>
     <string name="scorecount">score</string>
     <string name="yes">yes</string>
+    <string name="search">namesearch</string>
 </resources>

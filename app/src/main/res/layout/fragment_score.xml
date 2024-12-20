@@ -13,33 +13,52 @@
         android:layout_height="35dp"
         android:orientation="horizontal">
 
-        <TextView
+        <Button
+            android:id="@+id/placeTitle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="6"
-            android:textAlignment="center"
-            android:text="Place" />
+            android:background="@android:color/transparent"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:paddingTop="2dp"
+            android:textColor="@color/white"
+            android:text="Place ↓"
+            android:textAlignment="center" />
 
-        <TextView
+        <Button
+            android:id="@+id/nameTitle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="5"
-            android:textAlignment="center"
-            android:text="Name" />
+            android:background="@android:color/transparent"
+            android:paddingTop="2dp"
+            android:textColor="@color/white"
+            android:text="Name"
+            android:textAlignment="center" />
 
-        <TextView
+
+        <Button
+            android:id="@+id/scoreTitle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="5"
-            android:textAlignment="center"
-            android:text="Score" />
+            android:background="@android:color/transparent"
+            android:paddingTop="2dp"
+            android:textColor="@color/white"
+            android:text="Score"
+            android:textAlignment="center" />
 
-        <TextView
+        <Button
+            android:id="@+id/timeTitle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="5"
-            android:textAlignment="center"
-            android:text="Time" />
+            android:background="@android:color/transparent"
+            android:paddingTop="2dp"
+            android:textColor="@color/white"
+            android:text="Time"
+            android:textAlignment="center" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

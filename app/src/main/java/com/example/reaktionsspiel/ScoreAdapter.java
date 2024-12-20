@@ -54,7 +54,12 @@ public class ScoreAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return row.size();
+        if(row != null) {
+            return row.size();
+        }
+        else {
+            return 0;
+        }
     }
 
     public String configurateTime(long rowTime) {

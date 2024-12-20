@@ -3,9 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-    android:icon="@drawable/play_icon"
-    android:id="@+id/playing"
-    android:title="@string/play_icon"
+        android:icon="@drawable/ic_search"
+        android:id="@+id/search"
+        android:title="@string/search"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:icon="@drawable/play_icon"
+        android:id="@+id/playing"
+        android:title="@string/play_icon"
         app:showAsAction="always"/>
 
     <item
@@ -13,5 +20,6 @@
         android:id="@+id/score"
         android:title="@string/score"
         app:showAsAction="always"/>
+
 
 </menu>

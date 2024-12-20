@@ -1,8 +1,10 @@
-package com.example.reaktionsspiel;
+package com.example.reaktionsspiel.Sorters;
+
+import com.example.reaktionsspiel.ScoreRow;
 
 import java.util.Comparator;
 
-public class SortByScore implements Comparator {
+public class SortByScoreDesc implements Comparator {
     @Override
     public int compare(Object o1, Object o2) {
 

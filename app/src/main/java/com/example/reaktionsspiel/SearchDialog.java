@@ -20,20 +20,19 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.snackbar.Snackbar;
 
-public class FinishedDialog {
+public class SearchDialog {
     private Context context;
     private Dialog dialog;
     EditText nameInput;
-    long score;
-    GameFragment game;
+    GameActivity activity;
 
-    public FinishedDialog(Context context, long score, GameFragment game) {
+    public SearchDialog(Context context, GameActivity activity) {
         this.context = context;
-        this.score = score;
-        this.game = game;
+        this.activity = activity;
+
     }
 
-    public void showDialog(GameFragment fragment) {
+    public void showDialog() {
         // Create a dialog
         dialog = new Dialog(context);
         dialog.setCancelable(false);
@@ -43,7 +42,7 @@ public class FinishedDialog {
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setPadding(170, 50, 170, 200);
         layout.setLayoutParams(new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
         ));
 
@@ -54,15 +53,15 @@ public class FinishedDialog {
         });
 
         // Add a TextView
-        TextView finished = new TextView(context);
-        finished.setText("Finished");
-        finished.setTextSize(60);
-        finished.setTextColor(R.color.black);
-        finished.setGravity(Gravity.CENTER_VERTICAL);
-        layout.addView(finished);
+        TextView search = new TextView(context);
+        search.setText("search");
+        search.setTextSize(40);
+        search.setTextColor(R.color.black);
+        search.setGravity(Gravity.CENTER_VERTICAL);
+        layout.addView(search);
 
         TextView helpText = new TextView(context);
-        helpText.setText("Create a name to save your score");
+        helpText.setText("search for a name in the scoreboard");
         helpText.setTextSize(18);
         layout.addView(helpText);
 
@@ -78,19 +77,9 @@ public class FinishedDialog {
         nameInput.setTextColor(R.color.black);
         layout.addView(nameInput);
 
-        TextView scoreIndicator = new TextView(context);
-        scoreIndicator.setText("your Score!");
-        scoreIndicator.setTextSize(18);
-        layout.addView(scoreIndicator);
-
-        TextView endScore = new TextView(context);
-        endScore.setText(""+score); //since a long value alone isn't allowed.
-        endScore.setTextSize(28);
-        layout.addView(endScore);
-
         Button save = new Button(context);
-        save.setText("save");
-        save.setOnClickListener(v -> pressedSave());
+        save.setText("search");
+        save.setOnClickListener(v -> pressedSearch(nameInput.getText().toString().trim()));
         layout.addView(save);
 
         Button nope = new Button(context);
@@ -99,7 +88,8 @@ public class FinishedDialog {
         layout.addView(nope);
 
         // Set the custom view to the dialog
-                dialog.setContentView(layout);
+        dialog.setContentView(layout);
+//
 //        // Show the dialog
         dialog.show();
     }
@@ -109,14 +99,8 @@ public class FinishedDialog {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    public void pressedSave() { //basically i want, that if there is no name it should say that there is no name.
-        String name = nameInput.getText().toString().trim();
-        if(name.length() > 0 && name.length() < 14){
-            game.addNewScore(score, name);
-            dialog.dismiss();
-        }
-        else {
-            Snackbar.make(nameInput, "Invalid Username, max. 13 digits", Snackbar.LENGTH_SHORT).show();
-        }
+    public void pressedSearch(String name) {
+        activity.pressedSearch(name);
+        dialog.dismiss();
     }
 }
