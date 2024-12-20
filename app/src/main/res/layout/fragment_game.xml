@@ -6,7 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".GameFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <Button
         android:id="@+id/button"
         android:layout_width="128dp"
@@ -36,11 +35,44 @@
 
     <TextView
         android:id="@+id/currentScore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
+        android:layout_width="138dp"
+        android:layout_height="39dp"
         android:text="@string/scorecount"
+        android:textColor="#FFFFFF"
+        android:textSize="22dp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/highscore"
+        android:layout_width="208dp"
+        android:layout_height="39dp"
+        android:textColor="#FFFFFF"
+        android:textSize="22dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/currentScore" />
+
+    <TextView
+        android:id="@+id/highscorename"
+        android:layout_width="300dp"
+        android:layout_height="39dp"
+        android:textColor="#FFFFFF"
+        android:textSize="22dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/highscore" />
+
+    <TextView
+        android:id="@+id/timeLeft"
+        android:layout_width="55dp"
+        android:layout_height="42dp"
+        android:ems="10"
+        android:textColor="#FFFFFF"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

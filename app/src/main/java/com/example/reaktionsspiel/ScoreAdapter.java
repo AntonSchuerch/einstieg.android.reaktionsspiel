@@ -63,8 +63,6 @@ public class ScoreAdapter extends RecyclerView.Adapter {
     }
 
     public String configurateTime(long rowTime) {
-//        Date currentTime = Calendar.getInstance().getTime();
-//        long timeStamp = currentTime.getTime();
         Date time = new Date(rowTime);
         String datum = time.toString().substring(4, 10);
         String zeit = time.toString().substring(11, 19);

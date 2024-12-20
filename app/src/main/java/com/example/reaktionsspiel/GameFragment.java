@@ -33,12 +33,13 @@ public class GameFragment extends Fragment {
     int buttonStartWitdh;
     ViewGroup.LayoutParams params;
     Random rand;
+    TextView highScore;
+    TextView highScoreName;
+    TextView timeView;
+    int timeLeft;
 
     public static GameFragment newInstance() {
         GameFragment fragment = new GameFragment();
-        Bundle args = new Bundle();
-//        args.putParcelableArrayList("rows", scoreRows);
-//        fragment.setArguments(args);
         return fragment;
     }
 
@@ -46,8 +47,7 @@ public class GameFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         rand = new Random();
-//        Bundle args = getArguments();
-//        scoreBoard = args.getParcelableArrayList("rows");
+        timeLeft = 10;
     }
 
 
@@ -78,14 +78,19 @@ public class GameFragment extends Fragment {
         });
         scoreView = view.findViewById(R.id.currentScore);
         layoutbase = (ConstraintLayout) getView();
-
         params = button.getLayoutParams();
         buttonStartWitdh = params.width;       //so that i can make the button big again, after starting a new run.
         buttonStartHeight = params.height;
         button.setVisibility(View.INVISIBLE);
+        highScore = view.findViewById(R.id.highscore);
+        timeView = view.findViewById(R.id.timeLeft);
+        highScoreName = view.findViewById(R.id.highscorename);
     }
 
     public void backToStart() {
+        countDown.cancel();
+        timeLeft = 10;
+        timeView.setText(timeLeft+"");
         startButton.setVisibility(View.VISIBLE);
         button.setVisibility(View.GONE);
         score = 0;
@@ -104,24 +109,15 @@ public class GameFragment extends Fragment {
         params.height = buttonStartHeight;
         button.setLayoutParams(params);
         configureButton();
-        //         configureScore();
+        //configureScore();
+        timeLeft++;
         createCountDown(this, getContext());
     }
 
     public void buttonFound(View view) {
         score += 100;    //increase score
         configureScore();
-
         configureButton();
-        //todo make a second version where you have a timer after each one it gets smaller
-//        try {
-//            Thread.sleep(rand.nextInt(190) + 10);   //es ist immerhin ein reaktionsspiel
-//        }
-//        catch(Exception e) {
-//            Thread.currentThread().interrupt();
-//        }
-        //modeSwap()    //hier wird der Timer zurückgesetzt, button angezeigt und screencolor verändert
-        //change background color
     }
     public void configureButton() {
         button.setVisibility(View.VISIBLE);
@@ -140,13 +136,15 @@ public class GameFragment extends Fragment {
                 params.width = (int) Math.round(params.width * 0.97);
                 params.height = (int) Math.round(params.height * 0.97);
                 button.setLayoutParams(params);
+                timeLeft--;
+                timeView.setText(timeLeft+"");
             }
-
             public void onFinish() {
                 //spawn a fragment that asks you for a name for the score
                 //then make it so that the list is updated and ge game is on the start screen again.
                 FinishedDialog finish = new FinishedDialog(gameContext, score, gameFragment);   //since this doesnt' work here
                 finish.showDialog(gameFragment);
+                button.setVisibility(View.GONE);
                 backToStart();
             }
         }.start();
@@ -159,5 +157,20 @@ public class GameFragment extends Fragment {
 
     public void configureScore() {
         scoreView.setText("score: " + score);
+    }
+
+    @Override
+    public void onDestroy() {
+        if(countDown != null) {
+            countDown.cancel();
+        }
+        super.onDestroy();
+    }
+
+    public void setHighScore(ScoreRow highest) {
+        highScore.setText("Highscore:  " + highest.score);
+        highScoreName.setText(highest.name);
+        highScore.setVisibility(View.VISIBLE);
+        highScoreName.setVisibility(View.VISIBLE);
     }
 }

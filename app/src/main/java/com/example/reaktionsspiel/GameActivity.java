@@ -45,6 +45,7 @@ public class GameActivity extends AppCompatActivity {
     GameFragment gameFragment;
     ScoreFragment scoreFragment;
     ArrayList<ScoreRow> scoreList;  //da fragmente zerstört werden und so nicht gespeichert werden.
+    ScoreRow newestScore;
 
 
     @Override
@@ -57,11 +58,17 @@ public class GameActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         context = this;
         scoreList = new ArrayList<>();
-//        scoreList.add(new ScoreRow(100, "Anton"));
         manager = getSupportFragmentManager();
         gameFragment = new GameFragment();
         scoreFragment = new ScoreFragment();
-        manager.beginTransaction().setReorderingAllowed(true).add(R.id.gameFragmentContainerView, gameFragment).commit();
+        if(manager.getFragments().isEmpty()) {
+            manager.beginTransaction().setReorderingAllowed(true).add(R.id.gameFragmentContainerView, gameFragment).commit();
+        }
+        else {
+            if (manager != null) {
+                swapToGame();
+            }
+        }
     }
 
 
@@ -79,6 +86,7 @@ public class GameActivity extends AppCompatActivity {
         int idListButton = R.id.score;
         int idSearchButton = R.id.search;
         if(item.getItemId() == idSearchButton) {
+            gameFragment.backToStart();
             SearchDialog searchByName = new SearchDialog(this, this);
             searchByName.showDialog();
         }
@@ -100,25 +108,28 @@ public class GameActivity extends AppCompatActivity {
 
 
     public void addScoreList(long endScore, String username) {
-        ScoreRow newestScore = new ScoreRow(endScore, username);
+        newestScore = new ScoreRow(endScore, username);
         scoreList.add(newestScore);
-        SortByScore scoreSorter = new SortByScore();
-        Collections.sort(scoreList, scoreSorter);
+        SortByScoreDesc scoreSorterDesc = new SortByScoreDesc();
+        Collections.sort(scoreList, scoreSorterDesc);
         //die rangliste wird nach dem neuen immer 1. nach hinten geschoben
         for(int i = scoreList.indexOf(newestScore); i < scoreList.size(); i++) {
             scoreList.get(i).place = i + 1;     //da index mit 0 anfängt und rang mit 1 kommt ein +1
         }
+        if(newestScore.score >= scoreList.get(0).score) {
+            gameFragment.setHighScore(newestScore);
+        }
     }
 
     public void swapToGame() {
-        manager.beginTransaction().replace(R.id.gameFragmentContainerView,
-                GameFragment.class, null).commit();
+        manager.beginTransaction().remove(manager.findFragmentById(R.id.gameFragmentContainerView))
+                .add(R.id.gameFragmentContainerView, gameFragment).commit();
     }
     public void swapToScoreboard() {
         Bundle args = new Bundle();
         args.putParcelableArrayList("rows", scoreList);
-        manager.beginTransaction().replace(R.id.gameFragmentContainerView,
-                        ScoreFragment.class, args).commit();
+        manager.beginTransaction().remove(manager.findFragmentById(R.id.gameFragmentContainerView)).add(R.id.gameFragmentContainerView,
+                ScoreFragment.class, args).commit();
     }
 
     public void pressedSearch(String username) {
@@ -132,7 +143,7 @@ public class GameActivity extends AppCompatActivity {
             Collections.sort(personalized, scoreSorterDesc);
             Bundle args = new Bundle();
             args.putParcelableArrayList("rows", personalized);
-            manager.beginTransaction().replace(R.id.gameFragmentContainerView,
-                    ScoreFragment.class, args).commit();
+        manager.beginTransaction().remove(manager.findFragmentById(R.id.gameFragmentContainerView))
+                .add(R.id.gameFragmentContainerView, ScoreFragment.class, args).commit();
     }
 }
