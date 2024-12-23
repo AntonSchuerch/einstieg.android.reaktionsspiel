@@ -116,14 +116,17 @@ public class GameActivity extends AppCompatActivity {
         for(int i = scoreList.indexOf(newestScore); i < scoreList.size(); i++) {
             scoreList.get(i).place = i + 1;     //da index mit 0 anfängt und rang mit 1 kommt ein +1
         }
-        if(newestScore.score >= scoreList.get(0).score) {
+        if(newestScore == scoreList.get(0)) {
             gameFragment.setHighScore(newestScore);
         }
     }
 
     public void swapToGame() {
         manager.beginTransaction().remove(manager.findFragmentById(R.id.gameFragmentContainerView))
-                .add(R.id.gameFragmentContainerView, gameFragment).commit();
+                .add(R.id.gameFragmentContainerView, gameFragment).commitNow(); //commitNow, damit es vor dem score stuff passiert
+        if(scoreList != null){
+            gameFragment.setHighScore(scoreList.get(0));
+        }
     }
     public void swapToScoreboard() {
         Bundle args = new Bundle();
